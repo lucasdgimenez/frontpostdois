@@ -1,6 +1,8 @@
 <template>
-    <section class="container pageLogin">
+    <section class="all">
         <NavBar/>
+        <div class="container pageLogin">
+        
         <h1>Faça seu cadastro</h1>
         <n-form ref="formRef" :model="model">
             <n-form-item 
@@ -68,6 +70,7 @@
             </n-button>
            
         </n-form>
+        </div>
     </section>
   
 </template>
