@@ -1,5 +1,6 @@
 <template>
-   <section class="">
+   <section style="background: #e0e0e0;">
+        <NavBarLogged/>
         <div class="container">
         <n-form class="form">
             <n-input 
@@ -28,7 +29,7 @@
                 @click="goPost(post.id, post)" 
                 class="item"
             >
-                <n-card :title="post.autor" size="medium" color="blue">
+                <n-card :title="post.autor" size="medium" color="blue" style="margin-top: 5px; cursor: pointer;">
                     <span>{{new Date(post.created.seconds*1000)}}</span>
                     <p>{{post.content}}</p>
                     <hr>
@@ -43,6 +44,7 @@
 </template>
 
 <script setup>
+import NavBarLogged from '@/components/NavBarLogged.vue'
 import { ref, onMounted } from 'vue'
 import {useCounterStore} from '@/stores/index'
 import firebase from "@/services/firebaseConnection"
@@ -85,7 +87,7 @@ onMounted(async () => {
 function goPost(idPost, postComplete) {
   console.log("idPost: ", idPost)
   console.log("postComplete: ", postComplete.autor)
-  router.push({name: 'PagePosts', params: { id: idPost ,postComplete: postComplete.autor } })
+  router.push({name: 'PagePosts', params: { id: idPost, postComplete: postComplete } })
 }
 
 async function createPost() {

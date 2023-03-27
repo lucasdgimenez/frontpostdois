@@ -1,19 +1,16 @@
 <template>
-    <div class="container">
-        <h1>Postagem completa</h1>
+    <section style="background: #e0e0e0;">
+        <NavBarLogged/>
+        <div class="container">
         
-        <section class="item">
-            <!--{{props.id}}-->
-            
-            {{post}}
-
+        <section class="item">     
             
             <n-card>
                 <router-link :to="`/user/${post.userId}`">
                     <h2>{{post.autor}}</h2>
                 </router-link>
-                <span>{{post.created}}</span>
-                <p>{{post.content}}</p>
+                <!--<span>{{post.created}}</span>-->
+                <p style="margin-top: 20px;">{{post.content}}</p>
             </n-card>
             
             <hr>
@@ -46,10 +43,13 @@
             
         </section>
 
-    </div>
+        </div>
+    </section>
+    
 </template>
 
 <script setup>
+import NavBarLogged from '@/components/NavBarLogged.vue'
 import firebase from "@/services/firebaseConnection"
 import { ref, onMounted } from 'vue'
 import { defineProps } from "vue";

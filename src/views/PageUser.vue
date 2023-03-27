@@ -1,19 +1,23 @@
 <template>
-    <div class="container page">
-        <h1>Perfil</h1>
-        <section>
-            <label for="">
-                Nome: {{user.name}}
-            </label><br>
-            <label for="">
-                E-mail: {{user.email}}
-            </label>
-        </section>
-            
-    </div>
+    <section style="background: #e0e0e0;">
+        <NavBarLogged/>
+        <div class="container">
+            <section style="background: white;" class="page">
+                <h1>Perfil</h1>
+                <label for="">
+                    Nome: {{user.name}}
+                </label><br>
+                <label for="">
+                    E-mail: {{user.email}}
+                </label>
+            </section>
+                
+        </div>
+    </section>
 </template>
 
 <script setup>
+import NavBarLogged from '@/components/NavBarLogged.vue'
 import firebase from "@/services/firebaseConnection"
 import { defineProps } from "vue";
 import { ref, onMounted } from 'vue'
@@ -56,5 +60,7 @@ const loading = ref(false)
 </script>
 
 <style scoped>
-
+section {
+    height: 60vh;
+}
 </style>

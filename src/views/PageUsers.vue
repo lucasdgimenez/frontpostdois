@@ -1,19 +1,24 @@
 <template>
-    <div class="container page">
-        <h1>Usuarios</h1>
-        <section v-for="user in users" :key="user.id">
-            <n-card size="medium" class="item">
-                <router-link :to="`/user/${user.id}`">
-                    <h3>{{user.name}}</h3>
-                </router-link>
-                <p>{{user.email}}</p>
-            </n-card>
-        </section>
-            
-    </div>
+    <section style="background: #e0e0e0;">
+        <NavBarLogged/>
+        <div class="container">
+            <h1>Usuarios</h1>
+            <section v-for="user in users" :key="user.id" class="page">
+                <n-card size="medium" class="item">
+                    <router-link :to="`/user/${user.id}`">
+                        <h3>{{user.name}}</h3>
+                    </router-link>
+                    <p>{{user.email}}</p>
+                </n-card>
+            </section>
+                
+        </div>
+    </section>
+    
 </template>
 
 <script setup>
+import NavBarLogged from '@/components/NavBarLogged.vue'
 import firebase from "@/services/firebaseConnection"
 import { ref, onMounted } from 'vue'
 

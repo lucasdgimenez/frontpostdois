@@ -1,5 +1,6 @@
 <template>
     <section class="all">
+        <NavBar/>
         <div class="container pageLogin">
         <h1>Faça o login</h1>
         <n-form ref="formRef" :model="model">
@@ -38,6 +39,7 @@
 </template>
 
 <script setup>
+import NavBar from '@/components/NavBar.vue'
 import firebase from "@/services/firebaseConnection"
 import { ref } from 'vue'
 import {useCounterStore} from '@/stores/index'
@@ -103,8 +105,6 @@ const model = ref({
 
 
 <style scoped>
-.pageLogin {
-    background: #EDEEF0;
-}
+
 
 </style>

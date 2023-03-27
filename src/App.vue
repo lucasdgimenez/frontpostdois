@@ -1,18 +1,27 @@
 <template>
   <div class="app">
-    <NavBar/>
     <RouterView />
   </div>
   
 </template>
 
 <script setup>
-import NavBar from './components/NavBar.vue'
 
 </script>
 
-<style >
+<style>
 * {
-  margin: 0; padding: 0;
+  margin: 0; padding: 0; 
 }
+
+.page {
+  margin-top: 10px;
+}
+
+.pageLogin {
+    background: white;
+    padding: 15px;
+}
+
+
 </style>

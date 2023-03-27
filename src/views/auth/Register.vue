@@ -1,7 +1,8 @@
 <template>
-    <section class="container">
+    <section class="container pageLogin">
+        <NavBar/>
         <h1>Faça seu cadastro</h1>
-        <n-form ref="formRef" :model="model" :rules="rules">
+        <n-form ref="formRef" :model="model">
             <n-form-item 
                 path="name" 
                 label="Nome"
@@ -71,26 +72,25 @@
   
 </template>
 
-<script>
+<script setup>
+import NavBar from '@/components/NavBar.vue'
 import firebase from "@/services/firebaseConnection"
+import { ref } from 'vue'
+import {useCounterStore} from '@/stores/index'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-export default {
-    name: 'Register',
-    components: {},
-    data() {
-        return {
-            formRef: null,
-            rPasswordFormItemRef: null,
-            model: {
-                name: '',
-                email: '',
-                celular: null,
-                password: null,
-                reenteredPassword: null
-            },
-            rules: {
+const store = useCounterStore()
+const model = ref({
+    name: '',
+    email: '',
+    celular: null,
+    password: null,
+    reenteredPassword: null
+})
+const formRef = ref(null)
+const rPasswordFormItemRef = ref(null)
+const rules = ref({
                 password: [
                     {
                     required: true,
@@ -102,51 +102,52 @@ export default {
                     trigger: ["input", "blur"]
                     },
                     {
-                    validator: this.validatePasswordStartWith,
+                    validator: validatePasswordStartWith(),
                     trigger: "input"
                     },
                     {
-                    validator: this.validatePasswordSame,
+                    validator: validatePasswordSame(),
                     trigger: ["blur", "password-input"]
                     }
                 ]
+            }) 
+
+function validatePasswordStartWith(rule, value) {
+            return !!model.value.password && model.value.password.startsWith(value) && model.value.password.length >= value.length;
+        }
+
+function validatePasswordSame(rule, value) {
+            return value === model.value.password;
+        }
+
+function handlePasswordInput() {
+            if (model.value.reenteredPassword) {
+                rPasswordFormItemRef.value?.validate({ trigger: "password-input" });
             }
         }
-    },
-    methods: {
-        validatePasswordStartWith(rule, value) {
-            return !!this.model.password && this.model.password.startsWith(value) && this.model.password.length >= value.length;
-        },
-        validatePasswordSame(rule, value) {
-            return value === this.model.password;
-        },
-        handlePasswordInput() {
-            if (this.model.reenteredPassword) {
-                this.rPasswordFormItemRef.value?.validate({ trigger: "password-input" });
-            }
-        },
-        async handleRegister() {
-            let name = this.model.name
-            let email = this.model.email
-            var user = firebase.auth().createUserWithEmailAndPassword(this.model.email, 
-            this.model.password).then(cred => {
-            return firebase.firestore().collection('USERS').doc(cred.user.uid).set({ 
-                email,
-                name
-            })
+
+async function handleRegister() {
+    let name = model.value.name
+    let email = model.value.email
+    var user = firebase.auth().createUserWithEmailAndPassword(model.value.email, model.value.password).then(cred => {
+    return firebase.firestore().collection('USERS').doc(cred.user.uid).set({ 
+        email,
+        name
+    })
                 
-            })
+    })
 
-            const usuarioLogado = {
-                    uid: user.uid,
-                    nome: this.model.nome,
-                    email: this.model.email,
-                };
-                await localStorage.setItem('frontpost', JSON.stringify(usuarioLogado))
+    const usuarioLogado = {
+            uid: user.uid,
+            nome: model.value.nome,
+            email: model.value.email,
+        };
+        await localStorage.setItem('frontpostdois', JSON.stringify(usuarioLogado))
+        store.changeUserLogged()
+        router.push({ name: 'Home' })
 
-            router.push('/')
-            
-            return { user }
+    
+    return { user }
 
             
             /*const {user} = await firebase.auth().createUserWithEmailAndPassword(this.model.email, this.model.password)
@@ -170,13 +171,8 @@ export default {
                 console.log("Erro no cadastro")
             });
             this.$router.push('/')*/
-        }
-            
-            
-            
-    },
-
 }
+
 </script>
 
 <style scoped>

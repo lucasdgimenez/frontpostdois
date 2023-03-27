@@ -4,12 +4,12 @@
         <RouterLink to="/">FrontBlog</RouterLink>
 
         <div>
-            <RouterLink to="/register">
-                Cadastro
-            </RouterLink>
-            <RouterLink to="/login">
-                Login
-            </RouterLink>
+            <n-button 
+                type="error"
+                @click="logout"
+            >
+                Sair
+            </n-button>
         </div>
     </nav>
     <!--<nav>
